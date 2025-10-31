@@ -17,7 +17,8 @@
 4. [How to use?](#how-to-use)
 5. [Examples](#examples)
 6. [Comparing and Sorting](#comparing-and-sorting-of-chemical-formulas)
-7. [Atomic Weight Data](#atomic-weight-data)
+7. [Formula Arithmetics](#arithmetics-with-chemical-formulas)
+8. [Atomic Weight Data](#atomic-weight-data)
 	
 </details>
 
@@ -26,24 +27,12 @@
 
 
 ## How to install and uninstall
-**ChemFormula** can be installed from the [Python Package Index (PyPI)](https://pypi.org/) repository by calling
+**ChemFormula** can be installed from the [Python Package Index (PyPI)](https://pypi.org/) repository by calling `pip install chemformula` or `uv add chemformula`.
 
-    pip install chemformula
-
-or
-
-    uv add chemformula
-
-In order to uninstall **ChemFormula** from your local environment use
-
-    pip uninstall chemformula
-
-or
-
-    uv remove chemformula
+In order to uninstall **ChemFormula** from your local environment use `pip uninstall chemformula` or `uv remove chemformula`.
 
 ## Dependencies
-**ChemFormula** uses the [casregnum package](https://pypi.org/project/casregnum/) to manage CAS Registry Numbers®. The corresponding properties of the `CAS` class are therefore inherited to the ```ChemFormula``` class.
+**ChemFormula** uses the [casregnum package](https://pypi.org/project/casregnum/) to manage CAS Registry Numbers®. The corresponding properties of the `CAS` class are therefore inherited to the `ChemFormula` class.
 
 
 ## How to use
@@ -170,8 +159,8 @@ print(f" {mole:.1f} mol of {ethylcinnamate.name} weighs {mole * ethylcinnamate.f
 mass = 24
 print(f" {mass:.1f} g of {ethylcinnamate.name} corresponds to {mass/ethylcinnamate.formula_weight * 1000:.1f} mmol.")
 print(f" The elemental composition of {ethylcinnamate.name} is as follows:")
-for stringElementSymbol, floatElementFraction in ethylcinnamate.mass_fraction.items():
-	print(f"   {stringElementSymbol:<2}: {floatElementFraction * 100:>5.2f} %")
+for stringElementSymbol, floatElementFraction in ethylcinnamate.mass_fractions.items():
+    print(f"   {stringElementSymbol:<2}: {floatElementFraction * 100:>5.2f} %")
 
 print(f"\n--- {uranophane.name} and {muscarine.name} ---")
 print(f" Yes, {uranophane.name} is radioactive.") if uranophane.is_radioactive else print(f" No, {uranophane.name} is not radioactive.")
@@ -205,7 +194,7 @@ generates the following output
 
     --- Formula Weights Calculations with Ethyl Cinnamate ---
      The formula weight of ethyl cinnamate (C₁₁H₁₂O₂) is 176.21 g/mol.
-     1.4 mol of ethyl cinnamate weight 246.7 g.
+     1.4 mol of ethyl cinnamate weighs 246.7 g.
      24.0 g of ethyl cinnamate corresponds to 136.2 mmol.
      The elemental composition of ethyl cinnamate is as follows:
         C : 74.98 %
@@ -305,6 +294,28 @@ creates the following output:
      Yes, D₂O contains specific isotopes.
 
 
+## Arithmetics with Chemical Formulas
+
+`ChemFormula` instances can be added to create a new `ChemFormula` instance by summing element counts and charges:
+
+```python
+from chemformula import ChemFormula
+
+conjugated_diene = ChemFormula("C4H6")
+dienophile = ChemFormula("C2H4")
+
+diels_alder_adduct = conjugated_diene + dienophile
+
+print("\n--- Adding ChemFormula Objects ---")
+print(f" Butadiene {conjugated_diene.unicode} and ethylene {dienophile.unicode} undergo a Diels-Alder reaction to form {diels_alder_adduct.hill_formula.unicode}.")
+print(f" Molecular weight: {diels_alder_adduct.formula_weight:.2f} g/mol.\n")
+```
+creates the following output:
+
+    --- Adding ChemFormula Objects ---
+    Butadiene C₄H₆ and ethylene C₂H₄ undergo a Diels-Alder reaction to form C₆H₁₀.
+    Molecular weight: 82.15 g/mol.
+
 
 ## Atomic Weight Data
 
@@ -326,4 +337,4 @@ Quoted atomic weights are those suggested for materials where the origin of the 
 
 Data for hydrogen isotopes are taken from the **AME2020 Atomic Mass Evaluation** by Meng Wang *et al.*:
 
-  - [Chinese Phys. C, 2021, (45), 030003](https://doi.org/10.1088/1674-1137/abddaf)
+  - [*Chinese Phys. C*, **2021**, *45*(3), 030003](https://doi.org/10.1088/1674-1137/abddaf)
