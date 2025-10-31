@@ -1,8 +1,13 @@
 import pytest
 
+import chemformula.config
 from chemformula import ChemFormula
 
 # Tests for functionality
+
+@pytest.fixture(autouse=True, scope="module")
+def enable_hydrogen_isotopes():
+    chemformula.config.AllowHydrogenIsotopes = True
 
 
 @pytest.mark.parametrize(
@@ -15,6 +20,19 @@ from chemformula import ChemFormula
 )
 def test_addition(testinput1, testinput2, expected):
     assert testinput1 + testinput2 == expected
+
+
+@pytest.mark.parametrize(
+    "testinput1, testinput2, charge_testinput2, expected_isotope, expected_radioactive",
+    [
+        ("H2O", "D", 1, True, False),
+        ("U", "O2", 0, False, True),
+    ],
+)
+def test_addition_properties(testinput1, testinput2, charge_testinput2, expected_isotope, expected_radioactive):
+    adduct = ChemFormula(testinput1) + ChemFormula(testinput2, charge_testinput2)
+    assert adduct.contains_isotopes == expected_isotope
+    assert adduct.is_radioactive == expected_radioactive
 
 
 # Tests for error handling

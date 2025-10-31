@@ -1,5 +1,6 @@
 import pytest
 
+import chemformula.config
 from chemformula import ChemFormula, elements
 
 # pytest fixtures
@@ -14,6 +15,11 @@ def muscarine():
 @pytest.fixture
 def tetraamminecoppersulfate():
     return ChemFormula("[Cu(NH3)4]SO4.H2O")
+
+
+@pytest.fixture(autouse=True, scope="module")
+def enable_hydrogen_isotopes():
+    chemformula.config.AllowHydrogenIsotopes = False
 
 
 # Tests for functionality
