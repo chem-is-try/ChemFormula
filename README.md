@@ -7,49 +7,43 @@
 ![License](https://img.shields.io/github/license/molshape/ChemFormula) \
 ![GitHub stars](https://img.shields.io/github/stars/molshape/ChemFormula)
 
+---
 
-<details>
-<summary>Table of Contents</summary>
+## Table of Contents
 
 1. [Description](#description)
 2. [How to install and uninstall?](#how-to-install-and-uninstall)
 3. [Dependencies](#dependencies)
 4. [How to use?](#how-to-use)
-5. [Examples](#examples)
-6. [Comparing and Sorting](#comparing-and-sorting-of-chemical-formulas)
-7. [Atomic Weight Data](#atomic-weight-data)
-	
-</details>
+5. [Examples and Formula Formatting](#examples-and-formula-formatting)
+6. [Formula Arithmetics (Addition, Subtraction, Multiplication)](#arithmetics-with-chemical-formulas-addition-subtraction-multiplication)
+7. [Comparing and Sorting](#comparing-and-sorting-of-chemical-formulas)
+8. [Atomic Weight Data](#atomic-weight-data)
+
+---
 
 ## Description
-**ChemFormula** is a Python class for working with chemical formulas. It allows parsing chemical formulas and generating predefined (LaTeX, HTML) or customized formatted output strings, e. g. <span>[Cu(NH<sub>3</sub>)<sub>4</sub>]SO<sub>4</sub>&sdot;H<sub>2</sub>O</span>. **ChemFormula** is also calculating the formula weight and thus enabling stoichiometric calculations with chemical formula objects. Atomic weights are based on IUPAC recommendations (see [Atomic Weight Data](#atomic-weight-data)).
+**ChemFormula** is a Python library for working with chemical formulas. It allows parsing chemical formulas and generating predefined (LaTeX, HTML) or customized formatted output strings, e.g. <span>[Cu(NH<sub>3</sub>)<sub>4</sub>]SO<sub>4</sub>&sdot;H<sub>2</sub>O</span>. **ChemFormula** also calculates formula weights and weight distributions and enables stoichiometric calculations with chemical formula objects. Arithmetic operations (`+`, `-`, `*`) between formula objects are supported for combining and modifying chemical compositions. Atomic weights are based on IUPAC recommendations (see [Atomic Weight Data](#atomic-weight-data)).
 
+---
 
 ## How to install and uninstall
-**ChemFormula** can be installed from the [Python Package Index (PyPI)](https://pypi.org/) repository by calling
+**ChemFormula** can be installed from the [Python Package Index (PyPI)](https://pypi.org/) repository by calling `pip install chemformula` or `uv add chemformula`.
 
-    pip install chemformula
+In order to uninstall **ChemFormula** from your local environment use `pip uninstall chemformula` or `uv remove chemformula`.
 
-or
-
-    uv add chemformula
-
-In order to uninstall **ChemFormula** from your local environment use
-
-    pip uninstall chemformula
-
-or
-
-    uv remove chemformula
+---
 
 ## Dependencies
-**ChemFormula** uses the [casregnum package](https://pypi.org/project/casregnum/) to manage CAS Registry Numbers®. The corresponding properties of the `CAS` class are therefore inherited to the ```ChemFormula``` class.
+**ChemFormula** uses the [casregnum package](https://pypi.org/project/casregnum/) to manage CAS Registry Numbers®. The corresponding properties of the `CAS` class are therefore inherited to the `ChemFormula` class.
 
+
+---
 
 ## How to use
 **ChemFormula** provides the `ChemFormula` class for creating a chemical formula object:
 
-```Python
+```python
 from chemformula import ChemFormula
 
 chemical_formula = ChemFormula(formula,
@@ -60,7 +54,7 @@ chemical_formula = ChemFormula(formula,
 
 *Examples:*
 
-```Python
+```python
 ethylcinnamate = ChemFormula("(C6H5)CHCHCOOC2H5")
 tetraamminecoppersulfate = ChemFormula("[Cu(NH3)4]SO4.H2O")
 uranophane = ChemFormula("Ca(UO2)2(SiO3OH)2.(H2O)5")
@@ -74,7 +68,7 @@ theine = ChemFormula("(C5N4H)O2(CH3)3", name = "theine", cas = "58-08-2")
 
 The `ChemFormula` class offers the following attributes/functions
 
-```Python
+```python
 .formula           # original chemical formula used to create the chemical formula object
 
 .text_formula      # formula including charge as text output
@@ -133,11 +127,12 @@ The `ChemFormula` class offers the following attributes/functions
 .cas.check_digit   # CAS number check digit, inherited property from casregnum.CAS
 ```
 
+---
 
-## Examples
+## Examples and Formula Formatting
 The following python sample script
 
-```Python
+```python
 from chemformula import ChemFormula
 
 tetraamminecoppersulfate = ChemFormula("[Cu(NH3)4]SO4.H2O")
@@ -170,8 +165,8 @@ print(f" {mole:.1f} mol of {ethylcinnamate.name} weighs {mole * ethylcinnamate.f
 mass = 24
 print(f" {mass:.1f} g of {ethylcinnamate.name} corresponds to {mass/ethylcinnamate.formula_weight * 1000:.1f} mmol.")
 print(f" The elemental composition of {ethylcinnamate.name} is as follows:")
-for stringElementSymbol, floatElementFraction in ethylcinnamate.mass_fraction.items():
-	print(f"   {stringElementSymbol:<2}: {floatElementFraction * 100:>5.2f} %")
+for stringElementSymbol, floatElementFraction in ethylcinnamate.mass_fractions.items():
+    print(f"   {stringElementSymbol:<2}: {floatElementFraction * 100:>5.2f} %")
 
 print(f"\n--- {uranophane.name} and {muscarine.name} ---")
 print(f" Yes, {uranophane.name} is radioactive.") if uranophane.is_radioactive else print(f" No, {uranophane.name} is not radioactive.")
@@ -205,7 +200,7 @@ generates the following output
 
     --- Formula Weights Calculations with Ethyl Cinnamate ---
      The formula weight of ethyl cinnamate (C₁₁H₁₂O₂) is 176.21 g/mol.
-     1.4 mol of ethyl cinnamate weight 246.7 g.
+     1.4 mol of ethyl cinnamate weighs 246.7 g.
      24.0 g of ethyl cinnamate corresponds to 136.2 mmol.
      The elemental composition of ethyl cinnamate is as follows:
         C : 74.98 %
@@ -224,8 +219,36 @@ generates the following output
     --- CAS Registry Number ---
      Caffeine has the CAS RN 58-08-2 (or as an integer: 58082).
 
-More examples can be found at [/examples/](https://github.com/molshape/ChemFormula/blob/main/examples/).
+More examples can be found in the folder [examples/](https://github.com/molshape/ChemFormula/tree/main/examples/).
 
+---
+
+## Arithmetics with Chemical Formulas (Addition, Subtraction, Multiplication)
+
+`ChemFormula` instances can be added and subtracted with each other and can be multiplied with a positive integer factor to create a new `ChemFormula` instance by summing, subtracting or multiplying element counts and charges:
+
+```python
+ATP = ChemFormula("C10H12N5O13P3", -4)  # Adenosine triphosphate
+water = ChemFormula("H2O")
+dihydrogen_phosphate = ChemFormula("H2PO4", -1)
+
+AMP = ATP + 2 * water - 2 * dihydrogen_phosphate  # Adenosine monophosphate
+
+print("\n--- Arithmetics with ChemFormula Objects ---")
+print(f" ATP ({ATP.hill_formula.unicode}) hydrolyzes with two water molecules"
+      f" to AMP ({AMP.hill_formula.unicode}) and two inorganic phosphates ({dihydrogen_phosphate.unicode})\n"
+      f" releasing energy for cellular processes.\n")
+```
+
+creates the following output:
+
+    --- Arithmetics with ChemFormula Objects ---
+     ATP (C₁₀H₁₂N₅O₁₃P₃⁴⁻) hydrolyzes with two water molecules to AMP (C₁₀H₁₂N₅O₇P²⁻) and two inorganic phosphates (H₂PO₄⁻)
+     releasing energy for cellular processes.
+
+[example6.py](https://github.com/molshape/ChemFormula/tree/main/examples/example6.py) shows more examples for formula arithmetics.
+
+---
 
 ## Comparing and Sorting of Chemical Formulas
 
@@ -271,6 +294,9 @@ generates the following output
       6. C₆H₁₂O₆
       7. C₆H₁₂S₆
 
+[example4.py](https://github.com/molshape/ChemFormula/tree/main/examples/example4.py) provides detailed examples for sorting and comparing `ChemFormula` instances.
+
+---
 
 ## Using Isotopes like Deuterium or Tritium
 
@@ -304,7 +330,7 @@ creates the following output:
      No, H₂O contains no specific isotopes.
      Yes, D₂O contains specific isotopes.
 
-
+---
 
 ## Atomic Weight Data
 
@@ -326,4 +352,6 @@ Quoted atomic weights are those suggested for materials where the origin of the 
 
 Data for hydrogen isotopes are taken from the **AME2020 Atomic Mass Evaluation** by Meng Wang *et al.*:
 
-  - [Chinese Phys. C, 2021, (45), 030003](https://doi.org/10.1088/1674-1137/abddaf)
+  - [*Chinese Phys. C*, **2021**, *45*(3), 030003](https://doi.org/10.1088/1674-1137/abddaf)
+
+---

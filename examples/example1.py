@@ -26,7 +26,7 @@ for stringElementSymbol, floatElementFraction in ethylcinnamate.mass_fraction.it
     print(f"   {stringElementSymbol:<2}: {floatElementFraction * 100:>5.2f} %")
 
 print("\n--- Is Uranophane Radioactive and Charged? ---")
-print(f" Yes, {uranophane.name} is radioactive.") if uranophane.is_radioactive else print(f" No, {uranophane.name} is not radioactive.")  # noqa: E501
+print(f" Yes, {uranophane.name} is radioactive.") if uranophane.is_radioactive else print(f" No, {uranophane.name} is not radioactive.")
 print(f" Yes, {uranophane.name} is charged.") if uranophane.charged else print(f" No, {uranophane.name} is not charged.")
 
 print("\n--- Accessing Single Elements through FormulaObject.Element['Element_Symbol'] ---")
@@ -39,7 +39,7 @@ print(f" Cupric sulfate contains {tetraamminecoppersulfate.element['N']} nitroge
 #  Original:      [Cu(NH3)4]SO4.H2O
 #  Charged:       False
 #  Charge (int):  0
-#  LaTeX:         \[\textnormal{Cu}\(\textnormal{N}\textnormal{H}_{3}\)_{4}\]\textnormal{S}\textnormal{O}_{4}\cdot\textnormal{H}_{2}\textnormal{O}  # noqa: E501
+#  LaTeX:         \[\textnormal{Cu}\(\textnormal{N}\textnormal{H}_{3}\)_{4}\]\textnormal{S}\textnormal{O}_{4}\cdot\textnormal{H}_{2}\textnormal{O}
 #  HTML:          <span class='ChemFormula'>[Cu(NH<sub>3</sub>)<sub>4</sub>]SO<sub>4</sub>&sdot;H<sub>2</sub>O</span>
 #  Custom format: --> [Cu(NH_<3>)_<4>]SO_<4> * H_<2>O <--
 #  Sum formula:   CuN4H14SO5

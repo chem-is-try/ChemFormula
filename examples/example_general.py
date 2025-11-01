@@ -24,7 +24,7 @@ print(f" Hill formula:   {muscarine.hill_formula}")
 print(f" Hill formula:   {muscarine.hill_formula.latex}")
 
 print(f"\n--- Formula Weights Calculations with {ethylcinnamate.name.title()} ---")
-print(f" The formula weight of {ethylcinnamate.name} ({ethylcinnamate.sum_formula.unicode}) is {ethylcinnamate.formula_weight:.2f} g/mol.")  # noqa: E501
+print(f" The formula weight of {ethylcinnamate.name} ({ethylcinnamate.sum_formula.unicode}) is {ethylcinnamate.formula_weight:.2f} g/mol.")
 mole = 1.4
 print(f" {mole:.1f} mol of {ethylcinnamate.name} weight {mole * ethylcinnamate.formula_weight:.1f} g.")
 mass = 24
@@ -34,9 +34,9 @@ for stringElementSymbol, floatElementFraction in ethylcinnamate.mass_fraction.it
     print(f"   {stringElementSymbol:<2}: {floatElementFraction * 100:>5.2f} %")
 
 print(f"\n--- {uranophane.name} and {muscarine.name} ---")
-print(f" Yes, {uranophane.name} is radioactive.") if uranophane.is_radioactive else print(f" No, {uranophane.name} is not radioactive.")  # noqa: E501
+print(f" Yes, {uranophane.name} is radioactive.") if uranophane.is_radioactive else print(f" No, {uranophane.name} is not radioactive.")
 print(f" Yes, {uranophane.name} is charged.") if uranophane.charged else print(f" No, {uranophane.name} is not charged.")
-print(f" Yes, {muscarine.name} is radioactive.") if muscarine.is_radioactive else print(f" No, {muscarine.name} is not radioactive.")  # noqa: E501
+print(f" Yes, {muscarine.name} is radioactive.") if muscarine.is_radioactive else print(f" No, {muscarine.name} is not radioactive.")
 print(f" Yes, {muscarine.name} is charged.") if muscarine.charged else print(f" No, {muscarine.name} is not charged.")
 
 print('\n--- Accessing Single Elements through FormulaObject.Element["Element_Symbol"] ---')
@@ -51,8 +51,8 @@ print(f" {caffeine.name.capitalize()} has the CAS RN {caffeine.cas} (or as an in
 #  Print instance: ((CH3)3N)(C6H11O2)
 #  Original:       ((CH3)3N)(C6H11O2)
 #  Text formula:   ((CH3)3N)(C6H11O2) +
-#  HTML:           <span class='ChemFormula'>((CH<sub>3</sub>)<sub>3</sub>N)(C<sub>6</sub>H<sub>11</sub>O<sub>2</sub>)<sup>+</sup></span>  # noqa: E501
-#  LaTeX:          \(\(\textnormal{C}\textnormal{H}_{3}\)_{3}\textnormal{N}\)\(\textnormal{C}_{6}\textnormal{H}_{11}\textnormal{O}_{2}\)^{+}  # noqa: E501
+#  HTML:           <span class='ChemFormula'>((CH<sub>3</sub>)<sub>3</sub>N)(C<sub>6</sub>H<sub>11</sub>O<sub>2</sub>)<sup>+</sup></span>
+#  LaTeX:          \(\(\textnormal{C}\textnormal{H}_{3}\)_{3}\textnormal{N}\)\(\textnormal{C}_{6}\textnormal{H}_{11}\textnormal{O}_{2}\)^{+}
 #  Unicode:        ((CH₃)₃N)(C₆H₁₁O₂)⁺
 #  Charge (int):   1
 #  Charge (str):   +

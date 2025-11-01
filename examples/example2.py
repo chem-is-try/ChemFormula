@@ -12,7 +12,7 @@ print(f" Charge (str):   {muscarine.text_charge}")
 print(f" LaTeX:          {muscarine.latex}")
 print(f" HTML:           {muscarine.html}")
 print(f" Unicode:        {muscarine.unicode}")
-print(f" Custom format:  {muscarine.format_formula('--> ', '', '', '_<', '>', ' <--', '', '', ' * ', '^^', '^^', '(+)', '(-)')}")  # noqa: E501
+print(f" Custom format:  {muscarine.format_formula('--> ', '', '', '_<', '>', ' <--', '', '', ' * ', '^^', '^^', '(+)', '(-)')}")
 print(f" Sum formula:    {muscarine.sum_formula}")
 print(f" Hill formula:   {muscarine.hill_formula}")
 
@@ -25,7 +25,7 @@ print(f" Charge (str):   {pyrophosphate.text_charge}")
 print(f" LaTeX:          {pyrophosphate.latex}")
 print(f" HTML:           {pyrophosphate.html}")
 print(f" Unicode:        {pyrophosphate.unicode}")
-print(f" Custom format:  {pyrophosphate.format_formula('--> ', '', '', '_<', '>', ' <--', '', '', ' * ', '^^', '^^', '(+)', '(-)')}")  # noqa: E501
+print(f" Custom format:  {pyrophosphate.format_formula('--> ', '', '', '_<', '>', ' <--', '', '', ' * ', '^^', '^^', '(+)', '(-)')}")
 print(f" Sum formula:    {pyrophosphate.sum_formula}")
 print(f" Hill formula:   {pyrophosphate.hill_formula}")
 
@@ -40,7 +40,7 @@ for stringElementSymbol, floatElementFraction in muscarine.mass_fraction.items()
     print(f"   {stringElementSymbol:<2}: {floatElementFraction * 100:>5.2f} %")
 
 print("\n--- Is L-(+)-Muscarine Radioactive and Charged? ---")
-print(f" Yes, {muscarine.name} is radioactive.") if muscarine.is_radioactive else print(f" No, {muscarine.name} is not radioactive.")  # noqa: E501
+print(f" Yes, {muscarine.name} is radioactive.") if muscarine.is_radioactive else print(f" No, {muscarine.name} is not radioactive.")
 print(f" Yes, {muscarine.name} is charged.") if muscarine.charged else print(f" No, {muscarine.name} is not charged.")
 
 print("\n--- Accessing Single Elements through FormulaObject.Element['Element_Symbol'] ---")
@@ -54,8 +54,8 @@ print(f" Muscarine contains {muscarine.element['O']} oxygen atoms.\n")
 #  Charged:        True
 #  Charge (int):   1
 #  Charge (str):   +
-#  LaTeX:          \(\(\textnormal{C}\textnormal{H}_{3}\)_{3}\textnormal{N}\)\(\textnormal{C}_{6}\textnormal{H}_{11}\textnormal{O}_{2}\)^{+}  # noqa: E501
-#  HTML:           <span class='ChemFormula'>((CH<sub>3</sub>)<sub>3</sub>N)(C<sub>6</sub>H<sub>11</sub>O<sub>2</sub>)<sup>+</sup></span>  # noqa: E501
+#  LaTeX:          \(\(\textnormal{C}\textnormal{H}_{3}\)_{3}\textnormal{N}\)\(\textnormal{C}_{6}\textnormal{H}_{11}\textnormal{O}_{2}\)^{+}
+#  HTML:           <span class='ChemFormula'>((CH<sub>3</sub>)<sub>3</sub>N)(C<sub>6</sub>H<sub>11</sub>O<sub>2</sub>)<sup>+</sup></span>
 #  Unicode:        ((CH₃)₃N)(C₆H₁₁O₂)⁺
 #  Custom format:  --> ((CH_<3>)_<3>N)(C_<6>H_<11>O_<2>)^^+^^ <--
 #  Sum formula:    C9H20NO2

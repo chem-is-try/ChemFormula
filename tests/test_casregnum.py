@@ -1,6 +1,6 @@
 import pytest
 
-from chemformula import ChemFormula
+from chemformula.chemformula import ChemFormula
 
 # pytest fixtures
 

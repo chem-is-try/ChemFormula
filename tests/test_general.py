@@ -1,6 +1,7 @@
 import pytest
 
-from chemformula import ChemFormula, elements
+import chemformula.config
+from chemformula.chemformula import ChemFormula, elements
 
 # pytest fixtures
 
@@ -14,6 +15,11 @@ def muscarine():
 @pytest.fixture
 def tetraamminecoppersulfate():
     return ChemFormula("[Cu(NH3)4]SO4.H2O")
+
+
+@pytest.fixture(autouse=True, scope="module")
+def enable_hydrogen_isotopes():
+    chemformula.config.AllowHydrogenIsotopes = False
 
 
 # Tests for functionality
@@ -66,7 +72,9 @@ def test_charged(testinput, expected):
 )
 def test_is_radioactive(testinput, expected):
     assert testinput.is_radioactive is expected
-    assert testinput.radioactive is expected  # deprecated property
+    with pytest.warns(DeprecationWarning):
+        val = testinput.radioactive
+    assert val is expected
 
 
 def test_get_valid_element_symbols_without_hydrogen_isotopes():
@@ -152,14 +160,14 @@ def test_hill_formula(testinput, expected):
 def test_html(muscarine):
     assert (
         muscarine.html
-        == "<span class='ChemFormula'>((CH<sub>3</sub>)<sub>3</sub>N)(C<sub>6</sub>H<sub>11</sub>O<sub>2</sub>)<sup>+</sup></span>"  # noqa: E501
+        == "<span class='ChemFormula'>((CH<sub>3</sub>)<sub>3</sub>N)(C<sub>6</sub>H<sub>11</sub>O<sub>2</sub>)<sup>+</sup></span>"
     )
 
 
 def test_latex(muscarine):
     assert (
         muscarine.latex
-        == r"\(\(\textnormal{C}\textnormal{H}_{3}\)_{3}\textnormal{N}\)\(\textnormal{C}_{6}\textnormal{H}_{11}\textnormal{O}_{2}\)^{+}"  # noqa: E501
+        == r"\(\(\textnormal{C}\textnormal{H}_{3}\)_{3}\textnormal{N}\)\(\textnormal{C}_{6}\textnormal{H}_{11}\textnormal{O}_{2}\)^{+}"
     )
 
 
@@ -201,31 +209,26 @@ def test_hill_formula_text_formula(testinput, expected):
 # Tests for error handling
 
 
-#@pytest.mark.xfail(raises=TypeError)
 def test_charge_failed():
     with pytest.raises(TypeError):
         ChemFormula("H3O", "+")
 
 
-#@pytest.mark.xfail(raises=ValueError)
 def test_brackets_closing():
     with pytest.raises(ValueError):
         ChemFormula("H2)O")
 
 
-#@pytest.mark.xfail(raises=ValueError)
 def test_brackets():
     with pytest.raises(ValueError):
         ChemFormula("(H2)(O")
 
 
-#@pytest.mark.xfail(raises=ValueError)
 def test_element():
     with pytest.raises(ValueError):
         ChemFormula("caO")
 
 
-#@pytest.mark.xfail(raises=ValueError)
 def test_unknown_element():
     with pytest.raises(ValueError):
         ChemFormula("XyO")
