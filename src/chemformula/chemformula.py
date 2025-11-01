@@ -404,16 +404,21 @@ class ChemFormula(ChemFormulaString):
     def __mul__(self, factor: int) -> ChemFormula:
         """Multiplies a chemical formula object with a positive integer factor by multiplying all element frequencies and the charge.
            self = chemical formula, factor = multiplication factor to the right (positive integer)"""
-        if not isinstance(factor, int):
+        # allowed multiplication with integers
+        if isinstance(factor, int):
+            if factor <= 0:
+                raise ValueError(f"Multiplication factor must be a positive integer, found {factor}.")
+            dict_result = ChemFormulaDict()
+            for element, freq in self.element.items():
+                dict_result[element] = factor * freq
+            multiplied_formula = "".join(f"{element}{freq}" for element, freq in dict_result.items())
+            multiplied_charge = factor * self.charge
+            return ChemFormula(multiplied_formula, multiplied_charge)
+        # not allowed multiplication with another ChemFormula object
+        if isinstance(factor, ChemFormula):
             raise TypeError(f"Multiplication can only be performed with a positive integer factor, found type {type(factor).__name__} ({factor}).")
-        if factor <= 0:
-            raise ValueError(f"Multiplication factor must be a positive integer, found {factor}.")
-        dict_result = ChemFormulaDict()
-        for element, freq in self.element.items():
-            dict_result[element] = factor * freq
-        multiplied_formula = "".join(f"{element}{freq}" for element, freq in dict_result.items())
-        multiplied_charge = factor * self.charge
-        return ChemFormula(multiplied_formula, multiplied_charge)
+        # for all other types, return `NotImplemented` to allow Python and the other operand to handle the situation
+        return NotImplemented
 
     # Enable multiplication with the integer factor on the left side
     def __rmul__(self, factor: int) -> ChemFormula:
