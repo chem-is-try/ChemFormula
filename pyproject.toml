@@ -2,7 +2,7 @@
 name = "chemformula"
 version = "1.5.1"
 description = "ChemFormula is a Python library for working with chemical formulas. It supports parsing formulas, generating formatted output strings, calculating molecular weights and weight distributions, and performing arithmetic operations on ChemFormula objects."
-readme = "README.md"
+readme = { file = "README.md", content-type = "text/markdown" }
 authors = [
     {name = "Axel Müller", email = "molshape@gmx.net"},
 ]
@@ -17,12 +17,14 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Operating System :: OS Independent",
     "License :: OSI Approved :: MIT License",
     "Topic :: Scientific/Engineering :: Chemistry",
 ]
 
-license = "MIT"
+license = { text = "MIT" }
 license-files = ["LICENSE"]
 
 [project.urls]
@@ -51,7 +53,6 @@ python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = [
     "--strict-markers",
-    "--strict-config",
     "--verbose",
     "--cov=src",
     "--cov-branch",
@@ -61,7 +62,7 @@ addopts = [
 
 [tool.ruff]
 line-length = 88
-target-version = "py39"
+target-version = "py310"
 
 [tool.ruff.lint]
 select = [
@@ -93,5 +94,5 @@ exclude_lines = [
     "raise AssertionError",
     "raise NotImplementedError",
     "if 0:",
-    "if __name__ == .__main__.:",
+    "if __name__ == '__main__':",
 ]
