@@ -363,11 +363,12 @@ class ChemFormula(ChemFormulaString):
         """Adds two chemical formula objects by summing up their element frequencies and charges."""
         if not isinstance(other, ChemFormula):
             raise TypeError("Addition can only be performed between ChemFormula objects.")
-        # concatenate string formulas of both formula objects
-        combined_formula = self.formula + other.formula
+        # concatenate string formulas of both formula objects as sum formulas
+        combined_formula = self.sum_formula.formula + other.sum_formula.formula
         # sum up the charges of both formula objects
         sum_charge = self.charge + other.charge
-        return ChemFormula(combined_formula, sum_charge)
+        combined_sum_formula = ChemFormula(combined_formula, sum_charge).sum_formula.formula
+        return ChemFormula(combined_sum_formula, sum_charge)
 
     # Clean up chemical formula, i. e. harmonize brackets, add quantifier "1" to bracketed units without quantifier
     def _clean_up_formula(self) -> str:
