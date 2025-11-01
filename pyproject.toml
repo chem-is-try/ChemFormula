@@ -1,7 +1,7 @@
 [project]
 name = "chemformula"
 version = "1.5.1"
-description = "ChemFormula is a Python class for working with chemical formulas. It allows parsing chemical formulas, generating formatted output strings and calculating formula weights."
+description = "ChemFormula is a Python library for working with chemical formulas. It supports parsing formulas, generating formatted output strings, calculating molecular weights and weight distributions, and performing arithmetic operations on ChemFormula objects."
 readme = "README.md"
 authors = [
     {name = "Axel Müller", email = "molshape@gmx.net"},
