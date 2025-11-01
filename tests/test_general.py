@@ -160,14 +160,14 @@ def test_hill_formula(testinput, expected):
 def test_html(muscarine):
     assert (
         muscarine.html
-        == "<span class='ChemFormula'>((CH<sub>3</sub>)<sub>3</sub>N)(C<sub>6</sub>H<sub>11</sub>O<sub>2</sub>)<sup>+</sup></span>"  # noqa: E501
+        == "<span class='ChemFormula'>((CH<sub>3</sub>)<sub>3</sub>N)(C<sub>6</sub>H<sub>11</sub>O<sub>2</sub>)<sup>+</sup></span>"
     )
 
 
 def test_latex(muscarine):
     assert (
         muscarine.latex
-        == r"\(\(\textnormal{C}\textnormal{H}_{3}\)_{3}\textnormal{N}\)\(\textnormal{C}_{6}\textnormal{H}_{11}\textnormal{O}_{2}\)^{+}"  # noqa: E501
+        == r"\(\(\textnormal{C}\textnormal{H}_{3}\)_{3}\textnormal{N}\)\(\textnormal{C}_{6}\textnormal{H}_{11}\textnormal{O}_{2}\)^{+}"
     )
 
 

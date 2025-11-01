@@ -308,6 +308,12 @@ class ChemFormula(ChemFormulaString):
             Compares two formulas with respect to their lexical sorting according to Hill's notation
         __add__() : ChemFormula
             Adds two chemical formula objects by summing up their element frequencies and charges
+        __sub__() : ChemFormula
+            Subtracts two chemical formula objects by subtracting their element frequencies and charges
+        __mul__() : ChemFormula
+            Multiplies a chemical formula object by a positive integer factor by multiplying all element frequencies and the charge
+        __rmul__() : ChemFormula
+            Multiplies a chemical formula object by a positive integer factor by multiplying all element frequencies and the charge
     """
 
     def __init__(self, formula: str, charge: int = 0, name: str | None = None, cas: str | int | None = None) -> None:
