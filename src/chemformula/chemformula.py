@@ -370,6 +370,36 @@ class ChemFormula(ChemFormulaString):
         combined_sum_formula = ChemFormula(combined_formula, sum_charge).sum_formula.formula
         return ChemFormula(combined_sum_formula, sum_charge)
 
+    # Subtract two chemical formula objects
+    def __sub__(self, other: object) -> ChemFormula:
+        """Subtracts two chemical formula objects by subtracting their element frequencies and charges.
+           self = minuend, other = subtrahend"""
+        if not isinstance(other, ChemFormula):
+            raise TypeError("Subtraction can only be performed between ChemFormula objects.")
+        dict_result = self.element.copy()
+        dict_minuend = self.element
+        dict_subtrahend = other.element
+        # subtract element frequencies of all subtrahend elements from minuend
+        for element_subtrahend, freq_subtrahend in dict_subtrahend.items():
+            freq_minuend = dict_minuend.get(element_subtrahend, 0)
+            freq_result = freq_minuend - freq_subtrahend
+            # check for negative frequencies (i.e. invalid subtraction as more atoms are subtracted than are present)
+            if freq_result < 0:
+                raise ValueError(f"Subtraction leads to negative element frequency for element '{element_subtrahend}' ({freq_minuend} - {freq_subtrahend} = {freq_result})")
+            if freq_result > 0:
+                # update element frequency in result dictionary
+                dict_result[element_subtrahend] = freq_result
+            else:
+                # remove element if frequency becomes zero
+                dict_result.pop(element_subtrahend, None)
+        # subtract charges
+        sum_charge = self.charge - other.charge
+        # build formula string from resulting element dict and create new ChemFormula
+        if len(dict_result) == 0:
+            raise ValueError("Subtraction leads to an empty chemical formula (no elements left).")
+        combined_formula = "".join(f"{element}{freq}" for element, freq in dict_result.items())
+        return ChemFormula(combined_formula, sum_charge)
+
     # Clean up chemical formula, i. e. harmonize brackets, add quantifier "1" to bracketed units without quantifier
     def _clean_up_formula(self) -> str:
         """Cleans up the input formula by harmonizing brackets, removing whitespaces, dots and asterisks,

@@ -8,19 +8,17 @@
 ![GitHub stars](https://img.shields.io/github/stars/molshape/ChemFormula)
 
 
-<details>
-<summary>Table of Contents</summary>
+## Table of Contents
 
 1. [Description](#description)
 2. [How to install and uninstall?](#how-to-install-and-uninstall)
 3. [Dependencies](#dependencies)
 4. [How to use?](#how-to-use)
-5. [Examples](#examples)
-6. [Comparing and Sorting](#comparing-and-sorting-of-chemical-formulas)
-7. [Formula Arithmetics](#arithmetics-with-chemical-formulas)
+5. [Examples and Formula Formatting](#examples-and-formula-formatting)
+6. [Formula Arithmetics](#arithmetics-with-chemical-formulas)
+7. [Comparing and Sorting](#comparing-and-sorting-of-chemical-formulas)
 8. [Atomic Weight Data](#atomic-weight-data)
-	
-</details>
+
 
 ## Description
 **ChemFormula** is a Python class for working with chemical formulas. It allows parsing chemical formulas and generating predefined (LaTeX, HTML) or customized formatted output strings, e. g. <span>[Cu(NH<sub>3</sub>)<sub>4</sub>]SO<sub>4</sub>&sdot;H<sub>2</sub>O</span>. **ChemFormula** is also calculating the formula weight and thus enabling stoichiometric calculations with chemical formula objects. Atomic weights are based on IUPAC recommendations (see [Atomic Weight Data](#atomic-weight-data)).
@@ -38,7 +36,7 @@ In order to uninstall **ChemFormula** from your local environment use `pip unins
 ## How to use
 **ChemFormula** provides the `ChemFormula` class for creating a chemical formula object:
 
-```Python
+```python
 from chemformula import ChemFormula
 
 chemical_formula = ChemFormula(formula,
@@ -49,7 +47,7 @@ chemical_formula = ChemFormula(formula,
 
 *Examples:*
 
-```Python
+```python
 ethylcinnamate = ChemFormula("(C6H5)CHCHCOOC2H5")
 tetraamminecoppersulfate = ChemFormula("[Cu(NH3)4]SO4.H2O")
 uranophane = ChemFormula("Ca(UO2)2(SiO3OH)2.(H2O)5")
@@ -63,7 +61,7 @@ theine = ChemFormula("(C5N4H)O2(CH3)3", name = "theine", cas = "58-08-2")
 
 The `ChemFormula` class offers the following attributes/functions
 
-```Python
+```python
 .formula           # original chemical formula used to create the chemical formula object
 
 .text_formula      # formula including charge as text output
@@ -123,10 +121,10 @@ The `ChemFormula` class offers the following attributes/functions
 ```
 
 
-## Examples
+## Examples and Formula Formatting
 The following python sample script
 
-```Python
+```python
 from chemformula import ChemFormula
 
 tetraamminecoppersulfate = ChemFormula("[Cu(NH3)4]SO4.H2O")
@@ -213,7 +211,29 @@ generates the following output
     --- CAS Registry Number ---
      Caffeine has the CAS RN 58-08-2 (or as an integer: 58082).
 
-More examples can be found at [/examples/](https://github.com/molshape/ChemFormula/blob/main/examples/).
+More examples can be found in the folder [/examples/](/examples/).
+
+
+## Arithmetics with Chemical Formulas
+
+`ChemFormula` instances can be added or subtracted to create a new `ChemFormula` instance by summing or subtracting element counts and charges:
+
+```python
+ATP = ChemFormula("C10H12N5O13P3", -4)
+water = ChemFormula("H2O")
+dihydrogen_phosphate = ChemFormula("H2PO4", -1)
+
+ADP = ATP + water - dihydrogen_phosphate
+
+print("\n--- Arithmetics with ChemFormula Objects ---")
+print(f" ATP {ATP.hill_formula.unicode} hydrolyzes to ADP {ADP.hill_formula.unicode} and inorganic phosphate {dihydrogen_phosphate.unicode} releasing energy for cellular processes.\n")
+```
+creates the following output:
+
+    --- Arithmetics with ChemFormula Objects ---
+     ATP C₁₀H₁₂N₅O₁₃P₃⁴⁻ hydrolyzes to ADP C₁₀H₁₂N₅O₁₀P₂³⁻ and inorganic phosphate H₂PO₄⁻ releasing energy for cellular processes.
+
+[example6.py](/examples/example6.py) shows more examples for formula arithmetics.
 
 
 ## Comparing and Sorting of Chemical Formulas
@@ -260,6 +280,8 @@ generates the following output
       6. C₆H₁₂O₆
       7. C₆H₁₂S₆
 
+[example4.py](/examples/example4.py) provides detailed examples for sorting and comparing `ChemFormula` instances.
+
 
 ## Using Isotopes like Deuterium or Tritium
 
@@ -292,29 +314,6 @@ creates the following output:
     --- Isotopes in ChemFormula Objects ---
      No, H₂O contains no specific isotopes.
      Yes, D₂O contains specific isotopes.
-
-
-## Arithmetics with Chemical Formulas
-
-`ChemFormula` instances can be added to create a new `ChemFormula` instance by summing element counts and charges:
-
-```python
-from chemformula import ChemFormula
-
-conjugated_diene = ChemFormula("C4H6")
-dienophile = ChemFormula("C2H4")
-
-diels_alder_adduct = conjugated_diene + dienophile
-
-print("\n--- Adding ChemFormula Objects ---")
-print(f" Butadiene {conjugated_diene.unicode} and ethylene {dienophile.unicode} undergo a Diels-Alder reaction to form {diels_alder_adduct.hill_formula.unicode}.")
-print(f" Molecular weight: {diels_alder_adduct.formula_weight:.2f} g/mol.\n")
-```
-creates the following output:
-
-    --- Adding ChemFormula Objects ---
-    Butadiene C₄H₆ and ethylene C₂H₄ undergo a Diels-Alder reaction to form C₆H₁₀.
-    Molecular weight: 82.15 g/mol.
 
 
 ## Atomic Weight Data

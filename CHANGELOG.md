@@ -1,9 +1,10 @@
 # Changelog
 
-## 1.5.1 (2025-10-31)
+## 1.5.1 (2025-11-01)
 
 ### New Feature
 - Add `ChemFormula.__add__` operator to combine two ChemFormula instances by summing element counts and charges (see [example6.py](examples/example6.py))
+- Add `ChemFormula.__sub__` operator to subtract one ChemFormula instance from another one by subtracting element counts and charges (see [example6.py](examples/example6.py))
 
 ### Example
 ```python
@@ -15,6 +16,7 @@ proton = ChemFormula("H", 1)
 hydronium = water + proton  # => ChemFormula("H3O", 1)
 
 print(hydronium.hill_formula.unicode)  # => H₃O⁺
+print(hydronium - proton == water)  # True
 ```
 
 ## 1.5.0 (2025-09-14)
