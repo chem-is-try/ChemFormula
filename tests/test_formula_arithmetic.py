@@ -35,9 +35,35 @@ def test_addition_properties(testinput1, testinput2, charge_testinput2, expected
     assert adduct.is_radioactive == expected_radioactive
 
 
+@pytest.mark.parametrize(
+    "testinput1, testinput2, expected",
+    [
+        (ChemFormula("H3O", 1), ChemFormula("H", 1), ChemFormula("H2O", 0)),
+        (ChemFormula("CH2ClCH3", 0), ChemFormula("HCl", 0), ChemFormula("CH2CH2", 0)),
+    ],
+)
+def test_subtraction(testinput1, testinput2, expected):
+    assert testinput1 - testinput2 == expected
+
+
 # Tests for error handling
 
 
 def test_addition_failed():
     with pytest.raises(TypeError):
         ChemFormula("H2O") + "H+"
+
+
+def test_subtraction_failed_type():
+    with pytest.raises(TypeError):
+        ChemFormula("H2O") - "H+"
+
+
+def test_subtraction_failed_negative_frequency():
+    with pytest.raises(ValueError):
+        ChemFormula("H2O") - ChemFormula("H3")
+
+
+def test_subtraction_failed_empty_formula():
+    with pytest.raises(ValueError):
+        ChemFormula("H2O") - ChemFormula("OH2")
