@@ -1,7 +1,7 @@
 import pytest
 
 import chemformula.config
-from chemformula import ChemFormula, elements
+from chemformula.chemformula import ChemFormula, elements
 
 # Tests for functionality
 
@@ -49,4 +49,6 @@ def test_formula_weight_hydrogen_isotopes(testinput, expected):
 )
 def test_is_radioactive_isotopes(testinput, expected):
     assert ChemFormula(testinput).is_radioactive is expected
-    assert ChemFormula(testinput).radioactive is expected  # `radioactive` is deprecated, use `is_radioactive` instead
+    with pytest.warns(DeprecationWarning):
+        val = ChemFormula(testinput).radioactive
+    assert val is expected
