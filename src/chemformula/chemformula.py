@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import re
 import warnings
-from collections import defaultdict
 
 import casregnum
 
@@ -193,20 +192,60 @@ class ChemFormulaString:
         return unicode_formula + unicode_charge
 
 
-# Class for chemical formula dictionaries
-class ChemFormulaDict(defaultdict):
+# Class for chemical formula dictionaries (only positive integer frequencies allowed)
+class ChemFormulaDict(dict):
     """
-    ChemFormulaDict class for chemical formula dictionaries with element symbols as keys and element frequencies as values
+    ChemFormulaDict class for chemical formula dictionaries with element symbols as keys and
+    integer element frequencies as values.
     """
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(int, *args, **kwargs)  # default value for non-existing elements is 0
+    def __init__(self, cf_dict: dict[str, int] | None = None) -> None:
+        super().__init__()
+        if cf_dict is None:
+            return
+        if not isinstance(cf_dict, dict):
+            raise TypeError(f"Invalid Input Type for `ChemFormulaDict` Initialization (expected a dict, but found {type(cf_dict).__name__})")
+        for key_element, value_frequency in cf_dict.items():
+            self[key_element] = int(value_frequency)
 
-    def __setitem__(self, key_element: str, value_frequency: int | float) -> None:
+    def __missing__(self, key_element: str) -> int:
+        return 0  # default value for non-existing elements is 0
+
+    def __setitem__(self, key_element: str, value_frequency: int) -> None:
         if key_element not in elements.get_valid_element_symbols():
             raise ValueError(
                 f"Invalid Element Symbol (unknown element symbol '{key_element}')"
             )
+        if not isinstance(value_frequency, int) or value_frequency < 0:
+            raise ValueError(f"Invalid Element Frequency (must be a non-negative integer, got {value_frequency} for element '{key_element}')")
         super().__setitem__(key_element, value_frequency)
+
+
+# Class for chemical formula dictionaries (integer and float fractions allowed)
+class ChemFormulaDictFloat(dict):
+    """
+    ChemFormulaDictFloat class for chemical formula dictionaries with element symbols as keys and
+    float (or int) element fractions as values. Values are stored as floats.
+    """
+    def __init__(self, cf_dict: dict[str, float | int] | None = None) -> None:
+        super().__init__()
+        if cf_dict is None:
+            return
+        if not isinstance(cf_dict, dict):
+            raise TypeError(f"Invalid Input Type for `ChemFormulaDictFloat` Initialization (expected a dict, but found {type(cf_dict).__name__})")
+        for key_element, value_fraction in cf_dict.items():
+            self[key_element] = float(value_fraction)  # store as float
+
+    def __missing__(self, key_element: str) -> float:
+        return 0.0  # default value for non-existing elements is 0.0
+
+    def __setitem__(self, key_element: str, value_fraction: float) -> None:
+        if key_element not in elements.get_valid_element_symbols():
+            raise ValueError(
+                f"Invalid Element Symbol (unknown element symbol '{key_element}')"
+            )
+        if not (isinstance(value_fraction, (int, float))):
+            raise ValueError(f"Invalid Element Fraction (must be an integer or float value, got type {type(value_fraction).__name__} ({value_fraction}) for element '{key_element}')")
+        super().__setitem__(key_element, float(value_fraction))
 
 
 # Class for chemical formula objects
@@ -249,8 +288,8 @@ class ChemFormula(ChemFormulaString):
             Chemical formula in Hill notation as a ChemFormulaDict object with (key : value) = (element symbol : element frequency)
         formula_weight : float
             Formula weight of the chemical formula in g/mol
-        mass_fraction : ChemFormulaDict
-            Mass fraction of each element as a ChemFormulaDict object with (key : value) = (element symbol : mass fraction)
+        mass_fraction : ChemFormulaDictFloat
+            Mass fraction of each element as a ChemFormulaDictFloat object with (key : value) = (element symbol : mass fraction)
         contains_isotopes : bool
             Boolean property whether the formula contains an element symbol that is refering to a specific isotope (e.g. D or Tc)
         is_radioactive : bool
@@ -267,6 +306,8 @@ class ChemFormula(ChemFormulaString):
             Tests if two chemical formula objects are identical
         __lt__() : bool
             Compares two formulas with respect to their lexical sorting according to Hill's notation
+        __add__() : ChemFormula
+            Adds two chemical formula objects by summing up their element frequencies and charges
     """
 
     def __init__(self, formula: str, charge: int = 0, name: str | None = None, cas: str | int | None = None) -> None:
@@ -470,12 +511,12 @@ class ChemFormula(ChemFormulaString):
 
     # Calculate mass fractions for each element in the formula as a dictionary, atomic weights are taken from elements.py
     @property
-    def mass_fraction(self) -> ChemFormulaDict:
-        """Returns the mass fraction of each element as a `ChemFormulaDict` object with (key : value) = (element symbol : mass fraction)."""
-        dict_mass_fraction: ChemFormulaDict = ChemFormulaDict()
+    def mass_fraction(self) -> ChemFormulaDictFloat:
+        """Returns the mass fraction of each element as a `ChemFormulaDictFloat` object with (key : value) = (element symbol : mass fraction)."""
+        dict_mass_fraction: ChemFormulaDictFloat = ChemFormulaDictFloat()
         for element, freq in self.element.items():
             dict_mass_fraction[element] = float((freq * elements.atomic_weight(element)) / self.formula_weight)
-        return ChemFormulaDict(dict_mass_fraction)
+        return ChemFormulaDictFloat(dict_mass_fraction)
 
     # Checks, whether an element is classified as radioactive, radioactivity data is taken from elements.py
     @property

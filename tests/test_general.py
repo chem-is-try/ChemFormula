@@ -1,7 +1,7 @@
 import pytest
 
 import chemformula.config
-from chemformula import ChemFormula, elements
+from chemformula.chemformula import ChemFormula, elements
 
 # pytest fixtures
 

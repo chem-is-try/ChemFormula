@@ -1,7 +1,7 @@
 import pytest
 
 import chemformula.config
-from chemformula import ChemFormula
+from chemformula.chemformula import ChemFormula
 
 # Tests for functionality
 
