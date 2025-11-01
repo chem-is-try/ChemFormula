@@ -372,7 +372,8 @@ class ChemFormula(ChemFormulaString):
 
     # Subtract two chemical formula objects
     def __sub__(self, other: object) -> ChemFormula:
-        """Subtracts two chemical formula objects by subtracting their element frequencies and charges."""
+        """Subtracts two chemical formula objects by subtracting their element frequencies and charges.
+           self = minuend, other = subtrahend"""
         if not isinstance(other, ChemFormula):
             raise TypeError("Subtraction can only be performed between ChemFormula objects.")
         dict_result = self.element.copy()
