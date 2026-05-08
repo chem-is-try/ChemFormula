@@ -151,11 +151,11 @@ class ChemFormulaString:
     @property
     def latex(self) -> str:
         """Returns a LaTeX representation of the chemical formula (including charge information) as a string."""
-        return self.format_formula("",
-                                   r"\\textnormal{", "}",
-                                   "_{", "}",
-                                   "",
-                                   r"\\",
+        return self.format_formula(formula_prefix="",
+                                   element_prefix=r"\\textnormal{", element_suffix="}",
+                                   freq_prefix="_{", freq_suffix="}",
+                                   formula_suffix="",
+                                   bracket_prefix=r"\\", bracket_suffix="",
                                    multiply_symbol=r"\\cdot",
                                    charge_prefix="^{", charge_suffix="}"
                                    )
@@ -165,10 +165,10 @@ class ChemFormulaString:
     def html(self) -> str:
         """Returns an HTML representation of the chemical formula (including charge information) as a string.
         Specifies the class 'ChemFormula' for custom CSS."""
-        return self.format_formula("<span class='ChemFormula'>",
-                                   "", "",
-                                   "<sub>", "</sub>",
-                                   "</span>",
+        return self.format_formula(formula_prefix="<span class='ChemFormula'>",
+                                   element_prefix=r"", element_suffix="",
+                                   freq_prefix="<sub>", freq_suffix="</sub>",
+                                   formula_suffix="</span>",
                                    multiply_symbol="&sdot;",
                                    charge_prefix="<sup>", charge_suffix="</sup>",
                                    charge_negative="&ndash;"
