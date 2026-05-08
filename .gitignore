@@ -135,3 +135,5 @@ local/
 MANIFEST.in
 setup.py
 VERSION
+
+dev.py
