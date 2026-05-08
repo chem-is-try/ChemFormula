@@ -318,7 +318,7 @@ class ChemFormula(ChemFormulaString):
 
     def __init__(self, formula: str, charge: int = 0, name: str | None = None, cas: str | int | None = None) -> None:
         # Parent information
-        ChemFormulaString.__init__(self, formula, charge)
+        super().__init__(formula, charge)
         # Additional input information
         self.name = name
         self.cas = cas
