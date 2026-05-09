@@ -530,13 +530,11 @@ class ChemFormula(ChemFormulaString):
         dict_hill_sorted_elements = {}
         # extract "C" and "H" (if "C" is also present) from the original dictionary
         if "C" in dict_sorted_elements:
-            dict_hill_sorted_elements["C"] = dict_sorted_elements["C"]
-            del dict_sorted_elements["C"]
+            dict_hill_sorted_elements["C"] = dict_sorted_elements.pop("C")
             if "H" in dict_sorted_elements:
-                dict_hill_sorted_elements["H"] = dict_sorted_elements["H"]
-                del dict_sorted_elements["H"]
+                dict_hill_sorted_elements["H"] = dict_sorted_elements.pop("H")
         # create new Hill dictionary by placing "C" and "H" (if "C" is also present) in front of all other elements
-        dict_hill_sorted_elements = dict_hill_sorted_elements | dict_sorted_elements
+        dict_hill_sorted_elements |= dict_sorted_elements
         return ChemFormulaDict(dict_hill_sorted_elements)
 
     # function to contract formula from a given (element symbol : element frequency) dictionary
